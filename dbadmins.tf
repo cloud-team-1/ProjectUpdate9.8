@@ -47,3 +47,25 @@ resource "aws_iam_user" "db_user_2" {
 resource "aws_iam_access_key" "db_user2_access_key" {
   user = aws_iam_user.db_user_2.name
 }
+
+################################################################
+# Create encrypted PASSWORD                                     
+################################################################
+resource "aws_iam_user_login_profile" "db_user_1" {
+  user    = aws_iam_user.db_user_1.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+resource "aws_iam_user_login_profile" "db_user_2" {
+  user    = aws_iam_user.db_user_2.name
+  pgp_key = "keybase:grunya" 
+  password_length = 10
+}
+
+output "this_db_user_1_password" {
+  value = aws_iam_user_login_profile.db_user_1.encrypted_password
+}
+
+output "this_db_user_2_password" {
+  value = aws_iam_user_login_profile.db_user_2.encrypted_password
+}

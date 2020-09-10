@@ -80,4 +80,44 @@ resource "aws_iam_access_key" "monitor4_access_key" {
   user = aws_iam_user.monitor4.name
 }
 
+################################################################
+# Create encrypted PASSWORD                                     
+################################################################
+resource "aws_iam_user_login_profile" "monitor1" {
+  user    = aws_iam_user.monitor1.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+
+resource "aws_iam_user_login_profile" "monitor2" {
+  user    = aws_iam_user.monitor2.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+resource "aws_iam_user_login_profile" "monitor3" {
+  user    = aws_iam_user.monitor3.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+resource "aws_iam_user_login_profile" "monitor4" {
+  user    = aws_iam_user.monitor4.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+
+output "this_monitor1_password" {
+  value = aws_iam_user_login_profile.monitor1.encrypted_password
+}
+
+output "this_monitor2_password" {
+  value = aws_iam_user_login_profile.monitor2.encrypted_password
+}
+
+output "this_monitor3_password" {
+  value = aws_iam_user_login_profile.monitor3.encrypted_password
+}
+
+output "this_monitor4_password" {
+  value = aws_iam_user_login_profile.monitor4.encrypted_password
+}
 
