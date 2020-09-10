@@ -34,6 +34,9 @@ resource "aws_iam_group" "sysadmin" {
   name = "test-sysadmin"
 }
 
+######################################################################
+# Creating SysAdmin users 1 & 2
+######################################################################
 #SysAdmin 1
 
 resource "aws_iam_user" "sysadmin1" {
@@ -58,3 +61,25 @@ resource "aws_iam_access_key" "sysadmin2_access_key" {
   user = aws_iam_user.sysadmin2.name
 }
 
+########################################################################
+# Create encrypted password
+########################################################################
+
+resource "aws_iam_user_login_profile" "sysadmin1" {
+  user    = aws_iam_user.sysadmin1.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+resource "aws_iam_user_login_profile" "sysadmin2" {
+  user    = aws_iam_user.sysadmin2.name
+  pgp_key = "keybase:grunya"
+  password_length = 10
+}
+
+output "this_sysadmin1_password" {
+  value = aws_iam_user_login_profile.sysadmin1.encrypted_password
+}
+
+output "this_sysadmin2_password" {
+  value = aws_iam_user_login_profile.sysadmin2.encrypted_password
+}
